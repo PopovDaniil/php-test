@@ -1,5 +1,7 @@
 <?php
 
+//test
+
 $url = explode("/", $_GET['path']);
 print_r($url);
 
