@@ -7,7 +7,7 @@
     }
 </style>
 
-<a href="?action=add">Добавить товар</a>
+<a href="/product/add">Добавить товар</a>
 <table> 
     <?php
     foreach ($data as $item) { ?>
@@ -15,8 +15,8 @@
                 <td><?= $item['id'] ?></td>
                 <td><?= $item['name'] ?></td>
                 <td><?= $item['category_name']?></td>
-                <td><a href="?action=edit&id=<?= $item['id'] ?>">[e]</a>
-                <td><a href="?action=delete&id=<?= $item['id'] ?>">[x]</a>
+                <td><a href="/product/<?= $item['id'] ?>/edit">[e]</a>
+                <td><a href="/product/<?= $item['id'] ?>/delete">[x]</a>
             </tr>
     <?php } ?>
 </table>

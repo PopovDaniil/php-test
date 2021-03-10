@@ -25,12 +25,12 @@ class ProductModel
         ); 
     }
 
-    public function edit($data) {
+    public function edit($id, $data) {
         $result = $this->db->query(
             "UPDATE product SET
             name='" . $data['name'] . "',
             category_id='" . $data['category_id'] . "'
-            WHERE id=". $data['id']
+            WHERE id=". $id
         ); 
     }
 

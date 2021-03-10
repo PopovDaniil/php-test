@@ -18,20 +18,30 @@ class ProductController {
     }
 
     public function add() {
-        $category_model = new CategoryModel($this->db); 
-        $categories = $category_model->getAll();
-        require "../app/view/products_form.php";
+        if (empty($_POST)) {
+            $category_model = new CategoryModel($this->db); 
+            $categories = $category_model->getAll();
+            require "../app/view/products_form.php";
+        } else {
+            $this->model->add($_POST);
+            header("Location: /product");
+        }
     }
 
     public function edit($id) {
-        $data = $this->model->get($id);
-        $category_model = new CategoryModel($this->db); 
-        $categories = $category_model->getAll();
-        require "../app/view/products_form.php";
+        if (empty($_POST)) {
+            $data = $this->model->get($id);
+            $category_model = new CategoryModel($this->db); 
+            $categories = $category_model->getAll();
+            require "../app/view/products_form.php";
+        } else {
+            $this->model->edit($id, $_POST);
+            header("Location: /product");
+        }
     }
 
     public function delete($id) {
         $this->model->delete($id);
-        header("Location: /");
+        header("Location: /product");
     }
 }
