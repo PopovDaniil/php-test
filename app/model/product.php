@@ -34,15 +34,19 @@ class ProductModel
         ); 
     }
 
-    public function getAll() {
-        $result = $this->db->query(
-            "SELECT 
-                p.id AS id,
-                p.name AS name,
-                c.name AS category_name
-            FROM product p
-            LEFT JOIN category c ON (c.id = p.category_id) 
-            ORDER BY id ");
+    public function getAll($sort) {
+        $sql = "SELECT 
+        p.id AS id,
+        p.name AS name,
+        c.name AS category_name
+        FROM product p
+        LEFT JOIN category c ON (c.id = p.category_id)";
+        
+        if (!empty($sort)) {
+            $sql .= "ORDER BY " . $sort['by'] . " " . $sort['order'];
+        }
+
+        $result = $this->db->query($sql);
         return $result;
     }
 }

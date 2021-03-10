@@ -13,7 +13,16 @@ class ProductController {
         $this->model = new ProductModel($db);
     }
     public function list() {
-        $data = $this->model->getAll();
+        $sort_columns = [
+            0 => 'id',
+            1 => 'name',
+            2 => 'category_name'
+        ];
+
+        $sort['by'] = $_GET['sort'] ?? "id";
+        $sort['order'] = $_GET['order'] ?? "asc";
+
+        $data = $this->model->getAll($sort);
         require "../app/view/products_table.php";
     }
 
