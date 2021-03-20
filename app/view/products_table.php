@@ -48,3 +48,5 @@
             </tr>
     <?php } ?>
 </table>
+
+<?= $pages_list ?>

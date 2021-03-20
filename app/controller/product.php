@@ -2,6 +2,8 @@
 
 require "../app/model/product.php";
 require "../app/model/category.php";
+require "../system/lib/pagination.php";
+require "../system/lib/link.php";
 
 class ProductController {
 
@@ -19,10 +21,24 @@ class ProductController {
             2 => 'category_name'
         ];
 
-        $sort['by'] = $_GET['sort'] ?? "id";
-        $sort['order'] = $_GET['order'] ?? "asc";
+        $args['sort'] = $_GET['sort'] ?? "id";
+        $args['order'] = $_GET['order'] ?? "asc";
+        $args['page'] = $_GET['page'] ?? 1;
+        $args['items_per_page'] = 2;
 
-        $data = $this->model->getAll($sort);
+        $page_count = ceil($this->model->getTotal() / $args['items_per_page']);
+        echo $page_count;
+
+        $link = new Link($args);
+        
+        if ($args['page'] > $page_count) {
+            header("Location: " . $link->render(['page' => $page_count]));
+        }
+        
+        $pagination = new Pagination($args['page'], $page_count);
+        $pages_list = $pagination->render($link);
+
+        $data = $this->model->getAll($args);
         require "../app/view/products_table.php";
     }
 

@@ -34,7 +34,7 @@ class ProductModel
         ); 
     }
 
-    public function getAll($sort) {
+    public function getAll($args) {
         $sql = "SELECT 
         p.id AS id,
         p.name AS name,
@@ -42,11 +42,28 @@ class ProductModel
         FROM product p
         LEFT JOIN category c ON (c.id = p.category_id)";
         
-        if (!empty($sort)) {
-            $sql .= "ORDER BY " . $sort['by'] . " " . $sort['order'];
+        if (!empty($args['sort'])) {
+            $sql .= " ORDER BY " . $args['sort'] . " " . $args['order'];
         }
 
+        if ($args['items_per_page']) {
+            $sql .= " LIMIT ";
+            if ($args['page']) {
+                $sql .= ($args['page'] - 1) * $args['items_per_page'] . ", ";
+            }
+            $sql .= $args['items_per_page'];
+        }
+
+        echo $sql;
         $result = $this->db->query($sql);
         return $result;
+    }
+
+    public function getTotal() {
+        $sql = 
+            "SELECT COUNT(*) 
+            as count FROM product";
+        $result = $this->db->query($sql);
+        return $result[0]['count'];
     }
 }
