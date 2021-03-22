@@ -27,7 +27,6 @@ class ProductController {
         $args['items_per_page'] = 2;
 
         $page_count = ceil($this->model->getTotal() / $args['items_per_page']);
-        echo $page_count;
 
         $link = new Link($args);
         
